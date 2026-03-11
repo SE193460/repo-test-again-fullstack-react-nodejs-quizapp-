@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Reusing login styles
 
-export default function Register() {
 
-    const navigate = useNavigate();
+export default function Register() {
 
     const [username, setU] = useState('');
     const [email, setE] = useState('');
     const [password, setP] = useState('');
     const [msg, setMsg] = useState('');
 
+    const navigate = useNavigate();
     const handle = async () => {
         try {
-            await axios.post('http://localhost:5000/api/auth/signup', {
+            await axios.post(`${process.env.BASE_URL}/api/auth/signup`, {
                 username, email, password
             });
             setMsg('Register success! Go login.');
