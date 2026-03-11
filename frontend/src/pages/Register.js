@@ -14,7 +14,7 @@ export default function Register() {
     const navigate = useNavigate();
     const handle = async () => {
         try {
-            await axios.post(`${baseUrl}/api/auth/signup`, {
+            await axios.post(`https://react-nodejs-fullstack-quiz-app.onrender.com/api/auth/signup`, {
                 username, email, password
             });
             setMsg('Register success! Go login.');
