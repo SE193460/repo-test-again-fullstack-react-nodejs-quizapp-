@@ -198,7 +198,17 @@ export default function AdminDashboard() {
                         </ul>
                         <div className="admin-actions">
                             <button className="admin-btn btn-edit">Edit</button>
-                            <button className="admin-btn btn-delete" onClick={() => deleteQuestion(q._id)}>Delete</button>
+
+                            <button
+                                className="admin-btn btn-delete"
+                                onClick={() => {
+                                    if (window.confirm("Are you sure you want to delete this question?")) {
+                                        deleteQuestion(q._id);
+                                    }
+                                }}
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
                 ))}
