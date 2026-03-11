@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Reusing login styles
-const baseUrl = import.meta.env.REACT_APP_BASE_URL;
+//const baseUrl = import.meta.env.REACT_APP_BASE_URL;
 
 export default function Register() {
 
