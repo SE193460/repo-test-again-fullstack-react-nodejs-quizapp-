@@ -1,11 +1,10 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import './Quiz.css';
 
 export default function QuizDetail() {
     const { state } = useLocation();
-    const navigate = useNavigate();
     const quiz = state?.quiz;
 
     const [answers, setAnswers] = useState({});
