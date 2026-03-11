@@ -33,7 +33,7 @@ export default function AdminDashboard() {
         if (!newQuizTitle.trim()) return setQuizMsg('Quiz title cannot be empty');
         try {
             const res = await axios.post(
-                'http://localhost:5000/api/quizzes',
+                `${process.env.REACT_APP_BASE_URL}/api/quizzes`,
                 { title: newQuizTitle },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         if (!selectedQuizId) return setMsg('Select a quiz first');
         try {
             await axios.post(
-                'http://localhost:5000/api/questions',
+                `${process.env.REACT_APP_BASE_URL}/api/questions`,
                 { quizId: selectedQuizId, text: questionText, options, correct: parseInt(correctIndex) },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
 
     const deleteQuestion = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/questions/${id}`, {
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/questions/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMsg('Question deleted');
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
         if (!selectedQuizId) return setMsg('Select a quiz first');
         if (!window.confirm("Are you sure you want to delete this quiz? All related questions will be deleted.")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/quizzes/${selectedQuizId}`, {
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/quizzes/${selectedQuizId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMsg('Quiz deleted');

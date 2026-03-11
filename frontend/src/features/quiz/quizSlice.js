@@ -5,7 +5,7 @@ export const fetchQuiz = createAsyncThunk(
     'quiz/fetch',
     async (token) => {
         const res = await axios.get(
-            'http://localhost:5000/api/quizzes',
+            `${process.env.REACT_APP_BASE_URL}/api/quizzes`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`   // ⭐ cần backticks

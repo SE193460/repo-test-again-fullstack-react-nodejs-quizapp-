@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const login = createAsyncThunk('auth/login', async (data) => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', data);
+    const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, data);
     return res.data;
 }
 );
