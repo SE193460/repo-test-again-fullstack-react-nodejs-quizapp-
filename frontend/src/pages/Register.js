@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Reusing login styles
-//const baseUrl = import.meta.env.REACT_APP_BASE_URL;
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export default function Register() {
 
@@ -14,7 +14,7 @@ export default function Register() {
     const navigate = useNavigate();
     const handle = async () => {
         try {
-            await axios.post(`https://react-nodejs-fullstack-quiz-app.onrender.com/api/auth/signup`, {
+            await axios.post(`${baseUrl}/api/auth/signup`, {
                 username, email, password
             });
             setMsg('Register success! Go login.');
