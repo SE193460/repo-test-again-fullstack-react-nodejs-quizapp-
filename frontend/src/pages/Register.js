@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Reusing login styles
-
+const baseUrl = import.meta.env.BASE_URL;
 
 export default function Register() {
 
@@ -14,7 +14,7 @@ export default function Register() {
     const navigate = useNavigate();
     const handle = async () => {
         try {
-            await axios.post(`${process.env.BASE_URL}/api/auth/signup`, {
+            await axios.post(`${baseUrl}/api/auth/signup`, {
                 username, email, password
             });
             setMsg('Register success! Go login.');
