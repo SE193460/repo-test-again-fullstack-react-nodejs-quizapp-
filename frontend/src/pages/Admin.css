@@ -1,0 +1,138 @@
+.admin-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 4rem;
+}
+
+.admin-section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.add-question-card {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 2rem;
+    background: #fff;
+    margin-bottom: 3rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.admin-form-group {
+    display: flex;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+}
+
+.admin-form-group label {
+    width: 154px;
+    font-size: 1rem;
+    color: #555;
+    padding-top: 0.75rem;
+}
+
+.admin-form-inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admin-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.admin-input:focus {
+    border-color: #a0c4ff;
+}
+
+.add-question-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #2b7fff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+.add-question-btn:hover {
+    background-color: #1a6ff3;
+}
+
+.question-item-card {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 2rem;
+    background: #fff;
+    margin-bottom: 1rem;
+}
+
+.question-item-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.question-item-options {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.question-item-options li {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.admin-btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: white;
+    transition: opacity 0.2s;
+}
+
+.admin-btn:hover {
+    opacity: 0.9;
+}
+
+.btn-edit {
+    background-color: #f1c40f;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+.quiz-selector {
+    margin-bottom: 2rem;
+}
+
+.quiz-selector select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}

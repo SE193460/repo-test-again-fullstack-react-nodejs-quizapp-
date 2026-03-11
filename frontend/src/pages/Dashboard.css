@@ -1,0 +1,91 @@
+.dashboard-container {
+    background-color: #fff;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    background-color: #fff;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.welcome-msg {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.dashboard-nav {
+    background-color: #f8f9fa;
+    padding: 0.75rem 4rem;
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+}
+
+.nav-item:hover {
+    color: #333;
+}
+
+.nav-item.active {
+    color: #333;
+    font-weight: 500;
+}
+
+.quiz-list-content {
+    padding: 0 4rem;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.quiz-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.quiz-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border-color: #ddd;
+}
+
+.quiz-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.quiz-card p {
+    margin: 0;
+    color: #777;
+    font-size: 0.9rem;
+}
