@@ -16,6 +16,38 @@ export const fetchQuiz = createAsyncThunk(
     }
 );
 
+export const updateQuiz = createAsyncThunk(
+    'quiz/updateQuiz',
+    async ({ id, title, token }) => {
+        const res = await axios.put(
+            `${process.env.REACT_APP_BASE_URL}/api/quizzes/${id}`,
+            { title },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return res.data;
+    }
+);
+
+export const updateQuestion = createAsyncThunk(
+    'quiz/updateQuestion',
+    async ({ id, payload, token }) => {
+        const res = await axios.put(
+            `${process.env.REACT_APP_BASE_URL}/api/questions/${id}`,
+            payload,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return res.data;
+    }
+);
+
 const slice = createSlice({
     name: 'quiz',
     initialState: { list: [] },

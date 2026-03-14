@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { fetchQuiz } from '../features/quiz/quizSlice';
+import { fetchQuiz, updateQuiz, updateQuestion } from '../features/quiz/quizSlice';
 import './Admin.css';
 
 export default function AdminDashboard() {
@@ -17,6 +17,11 @@ export default function AdminDashboard() {
     const [msg, setMsg] = useState('');
 
     const [newQuizTitle, setNewQuizTitle] = useState('');
+    const [editQuizTitle, setEditQuizTitle] = useState('');
+    const [editingQuestionId, setEditingQuestionId] = useState('');
+    const [editQuestionText, setEditQuestionText] = useState('');
+    const [editOptions, setEditOptions] = useState(['', '', '', '']);
+    const [editCorrectIndex, setEditCorrectIndex] = useState(0);
     const [quizMsg, setQuizMsg] = useState('');
 
     useEffect(() => {
@@ -27,6 +32,11 @@ export default function AdminDashboard() {
         if (quizzes.length > 0 && !selectedQuizId) {
             setSelectedQuizId(quizzes[0]._id);
         }
+    }, [quizzes, selectedQuizId]);
+
+    useEffect(() => {
+        const selected = quizzes.find(q => q._id === selectedQuizId);
+        setEditQuizTitle(selected?.title || '');
     }, [quizzes, selectedQuizId]);
 
     const createQuiz = async () => {
@@ -98,6 +108,63 @@ export default function AdminDashboard() {
         }
     };
 
+    const saveQuizTitle = async () => {
+        if (!selectedQuizId) return setQuizMsg('Select a quiz first');
+        if (!editQuizTitle.trim()) return setQuizMsg('Quiz title cannot be empty');
+        try {
+            await dispatch(updateQuiz({ id: selectedQuizId, title: editQuizTitle.trim(), token })).unwrap();
+            setQuizMsg('Quiz updated successfully!');
+            dispatch(fetchQuiz(token));
+        } catch {
+            setQuizMsg('Error updating quiz');
+        }
+    };
+
+    const startEditQuestion = (question) => {
+        setEditingQuestionId(question._id);
+        setEditQuestionText(question.text || '');
+        const normalizedOptions = Array.isArray(question.options) ? [...question.options] : [];
+        while (normalizedOptions.length < 4) normalizedOptions.push('');
+        setEditOptions(normalizedOptions.slice(0, 4));
+        setEditCorrectIndex(Number.isInteger(question.correct) ? question.correct : 0);
+    };
+
+    const cancelEditQuestion = () => {
+        setEditingQuestionId('');
+        setEditQuestionText('');
+        setEditOptions(['', '', '', '']);
+        setEditCorrectIndex(0);
+    };
+
+    const handleEditOptionChange = (index, value) => {
+        const next = [...editOptions];
+        next[index] = value;
+        setEditOptions(next);
+    };
+
+    const saveQuestion = async () => {
+        if (!editingQuestionId) return;
+        if (!editQuestionText.trim()) return setMsg('Question text cannot be empty');
+        try {
+            await dispatch(
+                updateQuestion({
+                    id: editingQuestionId,
+                    payload: {
+                        text: editQuestionText,
+                        options: editOptions,
+                        correct: parseInt(editCorrectIndex)
+                    },
+                    token
+                })
+            ).unwrap();
+            setMsg('Question updated');
+            cancelEditQuestion();
+            dispatch(fetchQuiz(token));
+        } catch {
+            setMsg('Error updating question');
+        }
+    };
+
     if (user?.role !== 'admin')
         return <Layout><div style={{ padding: 40 }}>Not admin</div></Layout>;
 
@@ -140,6 +207,23 @@ export default function AdminDashboard() {
                             Delete Quiz
                         </button>
                     )}
+                </div>
+
+                <div className="add-question-card" style={{ marginBottom: '2rem' }}>
+                    <div className="admin-form-group">
+                        <label>Edit Selected Quiz Title:</label>
+                        <div className="admin-form-inputs">
+                            <input
+                                className="admin-input"
+                                value={editQuizTitle}
+                                onChange={e => setEditQuizTitle(e.target.value)}
+                                placeholder="Update quiz title..."
+                            />
+                        </div>
+                    </div>
+                    <button className="add-question-btn" onClick={saveQuizTitle}>
+                        Update Quiz
+                    </button>
                 </div>
 
                 <div className="add-question-card">
@@ -190,14 +274,66 @@ export default function AdminDashboard() {
 
                 {selectedQuiz?.questions?.map((q) => (
                     <div key={q._id || q.text} className="question-item-card">
-                        <h3 className="question-item-text">{q.text}</h3>
-                        <ul className="question-item-options">
-                            {q.options?.map((opt, i) => (
-                                <li key={i}>{opt}</li>
-                            ))}
-                        </ul>
+                        {editingQuestionId === q._id ? (
+                            <>
+                                <div className="admin-form-group">
+                                    <label>Question Text:</label>
+                                    <div className="admin-form-inputs">
+                                        <input
+                                            className="admin-input"
+                                            value={editQuestionText}
+                                            onChange={e => setEditQuestionText(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="admin-form-group">
+                                    <label>Options:</label>
+                                    <div className="admin-form-inputs">
+                                        {editOptions.map((opt, i) => (
+                                            <input
+                                                key={i}
+                                                className="admin-input"
+                                                value={opt}
+                                                onChange={e => handleEditOptionChange(i, e.target.value)}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="admin-form-group">
+                                    <label>Correct Answer Index:</label>
+                                    <div className="admin-form-inputs">
+                                        <input
+                                            type="number"
+                                            className="admin-input"
+                                            value={editCorrectIndex}
+                                            onChange={e => setEditCorrectIndex(e.target.value)}
+                                            min="0"
+                                            max="3"
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h3 className="question-item-text">{q.text}</h3>
+                                <ul className="question-item-options">
+                                    {q.options?.map((opt, i) => (
+                                        <li key={i}>{opt}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
                         <div className="admin-actions">
-                            <button className="admin-btn btn-edit">Edit</button>
+                            {editingQuestionId === q._id ? (
+                                <>
+                                    <button className="admin-btn btn-edit" onClick={saveQuestion}>Save</button>
+                                    <button className="admin-btn" onClick={cancelEditQuestion}>Cancel</button>
+                                </>
+                            ) : (
+                                <button className="admin-btn btn-edit" onClick={() => startEditQuestion(q)}>Edit</button>
+                            )}
 
                             <button
                                 className="admin-btn btn-delete"
